@@ -9,7 +9,7 @@ import Data.String
 runDay : Int -> String -> String
 runDay n inp = case n of
   1 => unlines [Day1.sol1 inp, Day1.sol2 inp]
-  2 => Day2.sol1 inp
+  2 => unlines [Day2.sol1 inp, Day2.sol2 inp]
   _ => "Not implemented yet!"
 
 main : IO ()

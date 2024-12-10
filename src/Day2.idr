@@ -27,3 +27,22 @@ part1 arrs = length $ filter isMonotonic arrs
 export
 sol1 : String -> String
 sol1 = show . part1 . parseInput
+
+
+removeAt : Nat -> List a -> List a
+removeAt _ [] = []
+removeAt 0 (_::xs) = xs
+removeAt (S k) (x::xs) = x :: removeAt k xs
+
+canBecomeMonotonic : List Int -> Bool
+canBecomeMonotonic xs = 
+    let indices = map fromInteger [0..(cast (length xs) - 1)]
+        removedLists = map (\i => removeAt i xs) indices
+    in any isIncreasing removedLists || any isDecreasing removedLists
+
+part2 : List (List Int) -> Nat
+part2 arrs = length $ filter canBecomeMonotonic arrs
+
+export
+sol2 : String -> String
+sol2 = show . part2 . parseInput
