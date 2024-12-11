@@ -81,3 +81,49 @@ export
 sol1 : String -> String
 sol1 = show . part1 . parseInput
 
+getSquare : List (List Char) -> (Integer, Integer) -> List Char
+getSquare grid (x, y) =
+    let
+        coords = [(x - 1, y - 1), (x + 1, y - 1), (x + 1, y + 1), (x - 1, y + 1)]
+        validCoords = mapMaybe (\(r, c) => inBounds grid (r, c)) coords
+        sequence = mapMaybe (\(r, c) =>
+            do
+                row <- at r grid
+                ch <- att c row
+                pure ch
+            ) validCoords
+    in
+        sequence
+
+checkSquare : List Char -> Bool
+checkSquare sq =
+    sq == ['S', 'M', 'M', 'S'] ||
+    sq == ['M', 'M', 'S', 'S'] ||
+    sq == ['M', 'S', 'S', 'M'] ||
+    sq == ['S', 'S', 'M', 'M']
+                
+
+checkX : List (List Char) -> (Nat, Nat) -> Maybe ()
+checkX grid (x, y) =
+    do
+        row <- at x grid
+        ch <- att y row
+        if ch == 'A' && checkSquare (getSquare grid ((cast x), (cast y))) 
+            then Just () 
+            else Nothing
+
+part2 : List (List Char) -> Nat
+part2 grid =
+    case grid of
+        [] => 0
+        (row1::_) => 
+            let rows = length grid
+                cols = length (row1)
+                points = case (rows, cols) of
+                    (S rowsm1, S colsm1) =>  [(r, c) | r <- [0..rowsm1], c <- [0..colsm1]]
+                    _ => []
+            in length $ mapMaybe (\(r, c) => checkX grid (cast r, cast c)) points
+
+export
+sol2 : String -> String
+sol2 = show . part2 . parseInput
