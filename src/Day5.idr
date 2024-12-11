@@ -41,6 +41,9 @@ checkPairInOrder rules (a, b) =
         Just _ => False
         Nothing => True
 
+checkPairOutOfOrder : Rules -> (Int, Int) -> Bool
+checkPairOutOfOrder rules (a, b) = not $ checkPairInOrder rules (a, b)
+
 pairwise : List a -> List (a, a)
 pairwise [] = []
 pairwise (x :: xs) = 
@@ -49,6 +52,9 @@ pairwise (x :: xs) =
 
 checkUpdateInOrder : Rules -> List Int -> Bool
 checkUpdateInOrder rules update = all (checkPairInOrder rules) $ pairwise update
+
+checkUpdateOutOfOrder : Rules -> List Int -> Bool
+checkUpdateOutOfOrder rules update = any (checkPairOutOfOrder rules) $ pairwise update
 
 findMiddle : List Int -> Maybe Int
 findMiddle xs = 
@@ -61,3 +67,13 @@ part1 (rules, updates) = sum $ mapMaybe findMiddle $ filter (checkUpdateInOrder 
 export
 sol1 : String -> String
 sol1 = show . part1 . parseInput
+
+sortByRules : Rules -> List Int -> List Int
+sortByRules rules update = sortBy (\a, b => if (checkPairInOrder rules (a, b)) then LT else GT ) update
+
+part2 : (Rules, Updates) -> Int
+part2 (rules, updates) = sum $ mapMaybe findMiddle $ map (sortByRules rules) $ filter (checkUpdateOutOfOrder rules) updates
+
+export
+sol2 : String -> String
+sol2 = show . part2 . parseInput
