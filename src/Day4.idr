@@ -16,7 +16,7 @@ att k xs = case drop k xs of
     [] => Nothing
     (y::ys) => Just y
 
-directions : List (Integer, Integer)
+directions : List (Int, Int)
 directions = [
     (0, 1),
     (1, 0),
@@ -28,7 +28,7 @@ directions = [
     (-1, 1)
 ]
 
-inBounds : List (List Char) -> (Integer, Integer) -> Maybe (Nat, Nat)
+inBounds : List (List Char) -> (Int, Int) -> Maybe (Nat, Nat)
 inBounds grid (x, y) =
     case grid of
         [] => Nothing
@@ -45,7 +45,7 @@ inBounds grid (x, y) =
             else
                 Nothing
 
-getSequence : List (List Char) -> (Integer, Integer) -> (Integer, Integer) -> List Char
+getSequence : List (List Char) -> (Int, Int) -> (Int, Int) -> List Char
 getSequence grid (x, y) (dx, dy) = 
     let 
         coords = iterateN 4 (\(r, c) => (r + dx, c + dy)) (x, y)
@@ -62,7 +62,7 @@ getSequence grid (x, y) (dx, dy) =
 checkSequence : List Char -> Bool
 checkSequence sq = sq == ['X', 'M', 'A', 'S']
 
-applyDirections: List (List Char) -> (Integer, Integer) -> Nat
+applyDirections: List (List Char) -> (Int, Int) -> Nat
 applyDirections grid (x, y) = count checkSequence $ map (getSequence grid (x, y)) directions
 
 part1 : List (List Char) -> Nat
@@ -81,7 +81,7 @@ export
 sol1 : String -> String
 sol1 = show . part1 . parseInput
 
-getSquare : List (List Char) -> (Integer, Integer) -> List Char
+getSquare : List (List Char) -> (Int, Int) -> List Char
 getSquare grid (x, y) =
     let
         coords = [(x - 1, y - 1), (x + 1, y - 1), (x + 1, y + 1), (x - 1, y + 1)]
