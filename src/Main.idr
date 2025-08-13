@@ -15,7 +15,7 @@ runDay n inp = case n of
   2 => unlines [Day2.sol1 inp, Day2.sol2 inp]
   4 => unlines [Day4.sol1 inp, Day4.sol2 inp]
   5 => unlines [Day5.sol1 inp, Day5.sol2 inp]
-  6 => unlines [Day6.sol1 inp]
+  6 => unlines [Day6.sol1 inp, Day6.sol2 inp]
   _ => "Not implemented yet!"
 
 main : IO ()
