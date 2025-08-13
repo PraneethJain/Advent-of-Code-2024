@@ -4,6 +4,7 @@ import Day1
 import Day2
 import Day4
 import Day5
+import Day6
 import System
 import System.File
 import Data.String
@@ -14,10 +15,11 @@ runDay n inp = case n of
   2 => unlines [Day2.sol1 inp, Day2.sol2 inp]
   4 => unlines [Day4.sol1 inp, Day4.sol2 inp]
   5 => unlines [Day5.sol1 inp, Day5.sol2 inp]
+  6 => unlines [Day6.sol1 inp]
   _ => "Not implemented yet!"
 
 main : IO ()
 main = do
-  einp <- readFile ("./data/day5.txt")
+  einp <- readFile ("./data/day6.txt")
   inp <- either (const $ die "Not implemented yet!") pure einp
-  putStrLn $ runDay 5 inp
+  putStrLn $ runDay 6 inp
